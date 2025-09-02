@@ -1,7 +1,5 @@
-# CPP Modules – 42 project
-
 <div align="center">
-  <h2>CPP Modules – C++ Learning Path</h2>
+  <h1>CPP Modules – C++ Learning Path</h1>
   <img src="./img/cpp.png"/>
   <br>
 </div>
@@ -82,7 +80,7 @@ This will generate one executable named as required in the current directory.
 ├── 07/					# Content of module 07
 ├── 08/					# Content of module 08
 ├── 09/					# Content of module 09
-├── LICENSE.txt		    # License MIT
+├── LICENSE			    # License MIT
 └── README.md
 ```
 > Each module directory contains one sub-directory per exercise (variable between 3 and 7) with the same structure as module 00 deployed above.
