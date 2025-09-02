@@ -107,13 +107,14 @@ By now only modules 00 to 04 are completed. Modules 05 to 09 are coming soon.
 This project is the original version that was evaluated at 42 and will remain in this state once completed.
 
 ---
+
 ## 👤 Credits
-Projects developed by **Loïc Gérard** – student at [École 42 Perpignan](https://42perpignan.fr).  
+Project developed by **Loïc Gérard** – 📧 Contact: lgerard@studend.42perpignan.fr - [École 42 Perpignan](https://42perpignan.fr).
 
 ---
 
 ## 📜 License
-This project is licensed under the MIT License. You are free to use, modify, and distribute it. See the [LICENSE](./LICENSE) file for details.
+This project is licensed under the MIT License. You are free to use, modify, and distribute it - see the [LICENSE](./LICENSE) file for details.
 
 > ⚠️ **Note for students**  
 > If you are a student at 42 (or elsewhere), it is strongly recommended **not to copy/paste** this code.  
