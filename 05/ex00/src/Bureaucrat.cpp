@@ -6,7 +6,7 @@
 /*   By: lgerard <lgerard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:21:18 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/05 18:18:26 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/08 17:58:21 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,17 @@ unsigned int	Bureaucrat::get_grade( void ) const
 	return	(this->grade);
 }
 
+void			Bureaucrat::upgrade(const Bureaucrat & burct)
+{
+	
+}
+
+
+void			Bureaucrat::downgrade(const Bureaucrat & burct)
+{
+	
+}
+
 
 // ****************************************************************************
 // overload of ostream operator
@@ -82,5 +93,11 @@ unsigned int	Bureaucrat::get_grade( void ) const
 std::ostream & operator<<(std::ostream & o, Bureaucrat const & burct)
 {
 	o << burct.get_name() << ", bureaucrat grade " << burct.get_grade();
-	return (o)
+	return (o);
 }
+
+// ****************************************************************************
+// ****************************************************************************
+// Exceptions
+// ****************************************************************************
+// ****************************************************************************
