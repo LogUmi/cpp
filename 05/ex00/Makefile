@@ -3,11 +3,7 @@ OBJ = obj
 OBJDIR = obj/
 SRCDIR = src/
 FILEC =	main.cpp \
-		Animal.cpp \
-		Dog.cpp \
-		Cat.cpp \
-		WrongAnimal.cpp \
-		WrongCat.cpp
+		Bureaucrat.cpp
 OBJS = $(patsubst %.cpp, $(OBJDIR)/%.o, $(FILEC))
 SRCS = $(addprefix	$(SRCDIR),	$(FILEC))
 DEPS = $(OBJS:.o=.d)
