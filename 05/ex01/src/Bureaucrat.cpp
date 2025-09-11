@@ -6,15 +6,15 @@
 /*   By: lgerard <lgerard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:21:18 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/10 16:45:17 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/11 18:29:41 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Bureaucrat.hpp"
 #include <string>
 #include <iostream>
 #include <exception>
-
+#include "Bureaucrat.hpp"
+#include "Form.hpp"
 
 // ****************************************************************************
 // Constructors and destructor
@@ -31,7 +31,7 @@ Bureaucrat::Bureaucrat(std::string name, int grade)
 :	name(name),
 	grade(grade)
 {
-	//std::cout << "Bureaucrat default constructor executed" << std::endl;
+	//std::cout << "Bureaucrat copy constructor executed" << std::endl;
 	if (grade < 1)
 	{
 		//grade = 1;
@@ -80,12 +80,12 @@ Bureaucrat&	Bureaucrat::operator=( const Bureaucrat& burct )
 // member functions
 // ****************************************************************************
 
-std::string		Bureaucrat::get_name( void ) const
+const std::string		Bureaucrat::get_name( void ) const
 {
 	return (this->name);
 }
 
-unsigned int	Bureaucrat::get_grade( void ) const
+int	Bureaucrat::get_grade( void ) const
 {
 	return	(this->grade);
 }
@@ -108,6 +108,18 @@ void	Bureaucrat::downGrade()
 		throw GradeTooHighException();
 }
 
+void	Bureaucrat::signForm( Form & toSign )
+{
+	try
+	{
+		toSign.beSigned(*this);
+		std::cout << this << " signed " << toSign << std::endl;
+	}
+	catch( const Form::GradeTooLowException & e )
+	{
+		std::cout << this << " couldn't sign " << toSign << " because " << e.what() <<std::endl;
+	}
+}
 
 // ****************************************************************************
 // overload of ostream operator
@@ -125,28 +137,10 @@ std::ostream & operator<<(std::ostream & o, Bureaucrat const & burct)
 // ****************************************************************************
 // ****************************************************************************
 
-/* Bureaucrat::GradeTooHighException::GradeTooHighException( void )
-{}
-
-Bureaucrat::GradeTooHighException::GradeTooHighException( const GradeTooHighException & gthe )
-{}
-
-Bureaucrat::GradeTooHighException::~GradeTooHighException( void )
-{}
- */	
 const char* Bureaucrat::GradeTooHighException::what() const throw()
 {
 	return ("The grade is to high (< 1)");
 }
-
-/* Bureaucrat::GradeTooLowException::GradeTooLowException( void )
-{}
-
-Bureaucrat::GradeTooLowException::GradeTooLowException( const GradeTooLowException & gthe )
-{}
-
-Bureaucrat::GradeTooLowException::~GradeTooLowException( void ) 
-{}*/
 	
 const char* Bureaucrat::GradeTooLowException::what() const throw()
 {

@@ -17,19 +17,26 @@ class Form
 	public:
 		Form( void );
 		Form( const Form & other );
+		Form(std::string name, int signing_grade, int executing_grade);
 		~Form ( void );
 		Form& operator=( const Form & other);
 
-		const std::string	get_name() const;
-		bool				get_signing() const;
-		const int			get_signing_grade() const;
-		const int			get_executing_grade() const;
+		const std::string	get_name( void ) const;
+		bool				get_signing( void ) const;
+		int					get_signing_grade( void ) const;
+		int					get_executing_grade( void ) const;
 		void				beSigned(const Bureaucrat & burct);
 
 		class GradeTooLowException: public std::exception
 		{
 			public:
 				virtual const char * what( void ) const throw();
+		};
+
+		class GradeTooHighException: public std::exception
+		{
+			public:
+			virtual const char *	what ( void ) const throw ();
 		};
 };
 
