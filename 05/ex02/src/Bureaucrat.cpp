@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bureaucrat.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: lgerard <lgerard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:21:18 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/11 20:32:19 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/12 17:51:29 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #include <iostream>
 #include <exception>
 #include "Bureaucrat.hpp"
-#include "Form.hpp"
+#include "AForm.hpp"
+#include "ShrubberyCreationForm.hpp"
 
 // ****************************************************************************
 // Constructors and destructor
@@ -108,16 +109,37 @@ void	Bureaucrat::downGrade()
 		throw GradeTooHighException();
 }
 
-void	Bureaucrat::signForm( Form & toSign )
+void	Bureaucrat::signForm( AForm & toSign )
 {
 	try
 	{
 		toSign.beSigned(*this);
 		std::cout << *this << " signed " << toSign << std::endl;
 	}
-	catch( const Form::GradeTooLowException & e )
+	catch( const AForm::GradeTooLowException & e )
 	{
 		std::cout << *this << " couldn't sign " << toSign << " because " << e.what() <<std::endl;
+	}
+}
+
+void	Bureaucrat::executeForm( AForm const & form ) const
+{
+	try 
+	{
+		form.execute( *this );
+		std::cout << *this << " executed " << form << std::endl;
+	}
+	catch(const AForm::GradeTooLowException & e)
+	{
+		std::cout << *this << " couldn't execute " << form << " because " << e.what() <<std::endl;
+	}
+	catch(const AForm::FormNotSignedException & e)
+	{
+		std::cout << *this << " couldn't execute " << form << " because " << e.what() <<std::endl;
+	}
+	catch(const ShrubberyCreationForm::FileIssueException & e)
+	{
+		std::cout << *this << " couldn't execute " << form << " because " << e.what() <<std::endl;
 	}
 }
 

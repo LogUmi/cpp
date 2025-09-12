@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ShrubberyCreationForm.hpp                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: lgerard <lgerard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 21:05:09 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/12 14:08:21 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/12 17:43:49 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,15 @@ class ShrubberyCreationForm: public AForm
 		ShrubberyCreationForm( void );
 		ShrubberyCreationForm( const ShrubberyCreationForm & other );
 		ShrubberyCreationForm( std::string target );
-		virtual	~ShrubberyCreationForm ( void );
+		virtual ~ShrubberyCreationForm ( void );
 		ShrubberyCreationForm& 	operator=( const ShrubberyCreationForm & other );
 
 		virtual void		execute(Bureaucrat const & executor) const;
+		
+		class FileIssueException: std::exception
+		{
+			public:
+			virtual const char * what ( void ) const throw();
+		};
 };
 #endif

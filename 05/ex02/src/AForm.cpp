@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   AForm.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: lgerard <lgerard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 13:52:51 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/12 13:53:22 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/12 15:34:49 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,8 +124,7 @@ std::ostream &	operator<<(std::ostream & o, const AForm & paper)
 
 	if (paper.get_signing() == true)
 		s_status = "true";
-	o 	<< "AForm " << paper.get_name() << " (target: " << paper.get_target()
-		<< " / signing: " << s_status 
+	o 	<< "AForm " << paper.get_name() << " (signing: " << s_status 
 		<< " / signing grade: " << paper.get_signing_grade() 
 		<< " / executing grade: " << paper.get_executing_grade() << ")";
 	return (o);

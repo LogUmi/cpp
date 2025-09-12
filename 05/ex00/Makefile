@@ -1,4 +1,4 @@
-NAME = animal
+NAME = bureaucrat
 OBJ = obj
 OBJDIR = obj/
 SRCDIR = src/

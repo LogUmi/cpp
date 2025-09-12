@@ -49,6 +49,6 @@ class AForm
 
 };
 
-std::ostream & operator<<( std::ostream & o, const AForm & paper);
+std::ostream & operator<<( std::ostream & o, const AForm & paper );
 
 #endif
