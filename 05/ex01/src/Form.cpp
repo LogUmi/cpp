@@ -102,7 +102,7 @@ std::ostream &	operator<<(std::ostream & o, const Form & paper)
 {
 	o 	<< "Form " << paper.get_name() << " (signing: " << paper.get_signing() 
 		<< " / signing grade: " << paper.get_signing_grade() 
-		<< " / excuting grade: " << paper.get_executing_grade() << ")";
+		<< " / executing grade: " << paper.get_executing_grade() << ")";
 	return (o);
 }
 

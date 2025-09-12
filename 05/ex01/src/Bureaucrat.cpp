@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bureaucrat.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgerard <lgerard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:21:18 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/11 18:29:41 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/11 20:32:19 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,11 +113,11 @@ void	Bureaucrat::signForm( Form & toSign )
 	try
 	{
 		toSign.beSigned(*this);
-		std::cout << this << " signed " << toSign << std::endl;
+		std::cout << *this << " signed " << toSign << std::endl;
 	}
 	catch( const Form::GradeTooLowException & e )
 	{
-		std::cout << this << " couldn't sign " << toSign << " because " << e.what() <<std::endl;
+		std::cout << *this << " couldn't sign " << toSign << " because " << e.what() <<std::endl;
 	}
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgerard <lgerard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 21:46:04 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/11 19:00:15 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/12 12:46:06 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int main( void )
 	std::cout << "****************************************************************************" << std::endl;
 	try
 	{
-		Form burct("High", 0, 42);
+		Form burct("High", 0, 42, "someone");
 	}
 	catch(const Form::GradeTooHighException & e)
 	{
