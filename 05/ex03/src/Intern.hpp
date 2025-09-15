@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Intern.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: lgerard <lgerard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 14:22:09 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/15 13:58:34 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/15 17:05:14 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ class Intern
 					~Intern ( void );
 		Intern & 	operator=( Intern const & other );
 
-		AForm*		makeForm(std::string name, std::string target);
+		AForm*	makeForm(std::string name, std::string target);
 
 		class WrongFormException: std::exception
 		{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: lgerard <lgerard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 21:46:04 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/14 14:11:02 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/15 16:40:26 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,16 @@
 #include "ShrubberyCreationForm.hpp"
 #include "RobotomyRequestForm.hpp"
 #include "PresidentialPardonForm.hpp"
+#include <ctime>
+#include <cstdlib>
 #include <iostream>
 #include <string>
 
 int main( void )
 {
-	std::srand(std::time(NULL)); // initialisation unique pour randomisation de robotomy
+	srand(time(NULL)); // initialisation unique pour randomisation de robotomy
 	std::cout << "****************************************************************************" << std::endl;
-	std::cout << "ex02 nForms basic tests" << std::endl;
+	std::cout << "ex03 Forms basic tests" << std::endl;
 	std::cout << "****************************************************************************" << std::endl;
 	Bureaucrat b1("Big Boss", 1);
 	std::cout << b1 << " created" << std::endl;

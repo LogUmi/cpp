@@ -6,7 +6,7 @@
 /*   By: lgerard <lgerard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 21:05:05 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/12 17:05:22 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/15 16:30:59 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	ShrubberyCreationForm::execute( const Bureaucrat & executor ) const
 		this->is_Executable(executor);
 		std::string		filename = "./" + this->target + "_shrubbery";
 		std::ofstream	ofs;
-		ofs.open(filename, std::fstream::trunc);
+		ofs.open(filename.c_str(), std::fstream::trunc);
 		if (!ofs.is_open())
 			throw FileIssueException();
 		ofs << ".................................::-=-.......--:................................" << std::endl;

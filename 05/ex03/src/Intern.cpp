@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Intern.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: lgerard <lgerard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 14:21:56 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/15 13:57:12 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/15 17:39:09 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,5 @@ AForm* Intern::makeForm(std::string name, std::string target)
 
 const char * Intern::WrongFormException::what( void ) const throw()
 {
-	return ("Intern can't create an unknown form name");
+	return ("Intern can't create a form with an unknown name");
 }

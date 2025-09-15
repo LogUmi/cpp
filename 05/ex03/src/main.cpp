@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: lgerard <lgerard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 21:46:04 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/14 14:11:02 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/15 17:53:30 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,54 +14,93 @@
 #include "ShrubberyCreationForm.hpp"
 #include "RobotomyRequestForm.hpp"
 #include "PresidentialPardonForm.hpp"
+#include "Intern.hpp"
 #include <iostream>
 #include <string>
+#include <ctime>
+#include <cstdlib>
 
 int main( void )
 {
-	std::srand(std::time(NULL)); // initialisation unique pour randomisation de robotomy
+	srand(time(NULL)); // initialisation unique pour randomisation de robotomy
 	std::cout << "****************************************************************************" << std::endl;
-	std::cout << "ex02 nForms basic tests" << std::endl;
+	std::cout << "ex02 Forms basic tests" << std::endl;
 	std::cout << "****************************************************************************" << std::endl;
 	Bureaucrat b1("Big Boss", 1);
 	std::cout << b1 << " created" << std::endl;
-	Bureaucrat b25("Little Boss", 25);
-	std::cout << b25 << " created" << std::endl;
-	Bureaucrat b150("Little Hand", 150);
-	std::cout << b150 << " created" << std::endl;
-	ShrubberyCreationForm tree("home"); // sign 145 exec 137
-	std::cout << tree << " created" << std::endl;
-	RobotomyRequestForm robot("someone"); // sign 72 exec 45
-	std::cout << robot << " created" << std::endl;
-	PresidentialPardonForm pardon("everybody"); // sign 25 exec 5
-	std::cout << pardon << " created" << std::endl;
+	Intern someRandomIntern;
+	std::cout << "someRandomIntern created" << std::endl;
 	std::cout << "****************************************************************************" << std::endl;
 	std::cout << "ShrubberyCreationForm tests" << std::endl;
 	std::cout << "****************************************************************************" << std::endl;
-	b1.executeForm(tree);
-	b150.signForm(tree);
-	b25.signForm(tree);
-	b150.executeForm(tree);
-	b25.executeForm(tree);
+	try
+	{
+		AForm* scf = someRandomIntern.makeForm("shrubbery creation", "Bender");
+		b1.signForm( *scf );
+		b1.executeForm( *scf );
+		delete scf;
+	}
+	catch ( const Intern::WrongFormException & e )
+	{
+		std::cout << e.what() << std::endl;
+	}
+	catch(const std::bad_alloc& e)
+	{
+		std::cerr << "Intern could'nt create the form : " << e.what() << std::endl;
+	}
 	std::cout << "****************************************************************************" << std::endl;
 	std::cout << "RobotomyRequestForm tests" << std::endl;
 	std::cout << "****************************************************************************" << std::endl;
-	b1.executeForm(robot);
-	b150.signForm(robot);
-	b25.signForm(robot);
-	b150.executeForm(robot);
-	std::cout << "****************************************************************************" << std::endl;
-	for (int i = 1; i <= 10; i++)
+	try
 	{
-		b25.executeForm(robot);
-		std::cout << "****************************************************************************" << std::endl;
+		AForm* rrf = someRandomIntern.makeForm("robotomy request", "Bender");
+		b1.signForm( *rrf );
+		b1.executeForm( *rrf );
+		delete rrf;
 	}
+	catch ( const Intern::WrongFormException & e )
+	{
+		std::cout << e.what() << std::endl;
+	}
+	catch(const std::bad_alloc& e)
+	{
+		std::cerr << "Intern could'nt create the form : " << e.what() << std::endl;
+	}
+	std::cout << "****************************************************************************" << std::endl;
 	std::cout << "PresidentialPardonForm" << std::endl;
 	std::cout << "****************************************************************************" << std::endl;
-	b150.signForm(pardon);
-	b25.signForm(pardon);
-	b150.executeForm(pardon);
-	b25.executeForm(pardon);
-	b1.executeForm(pardon);
+	try
+	{
+		AForm* pdf = someRandomIntern.makeForm("presidential pardon", "Bender");
+		b1.signForm( *pdf );
+		b1.executeForm( *pdf );
+		delete pdf;
+	}
+	catch ( const Intern::WrongFormException & e )
+	{
+		std::cout << e.what() << std::endl;
+	}
+	catch(const std::bad_alloc& e)
+	{
+		std::cerr << "Intern could'nt create the form : " << e.what() << std::endl;
+	}
+	std::cout << "****************************************************************************" << std::endl;
+	std::cout << "EternalLifeRequest" << std::endl;
+	std::cout << "****************************************************************************" << std::endl;
+	try
+	{
+		AForm* elr = someRandomIntern.makeForm("eternal life", "Bender");
+		b1.signForm( *elr );
+		b1.executeForm( *elr );
+		delete elr;
+	}
+	catch ( const Intern::WrongFormException & e )
+	{
+		std::cout << e.what() << std::endl;
+	}
+	catch(const std::bad_alloc& e)
+	{
+		std::cerr << "Intern could'nt create the form : " << e.what() << std::endl;
+	}
     return (0);
 }

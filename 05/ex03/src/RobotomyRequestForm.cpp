@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   RobotomyRequestForm.cpp                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: lgerard <lgerard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 21:04:54 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/14 14:10:01 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/15 17:48:27 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include <string>
 #include <iostream>
+#include <cstdlib>
 #include "AForm.hpp"
 #include "RobotomyRequestForm.hpp"
 #include "Bureaucrat.hpp"
