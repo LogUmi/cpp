@@ -3,15 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ScalarConverter.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: lgerard <lgerard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 20:27:59 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/18 15:00:20 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/18 18:44:44 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string>
 #include <iostream>
+#include <climits>
+#include <cstdlib>
+#include <iomanip>
+#include <cmath>
 #include "ScalarConverter.hpp"
 
 // ****************************************************************************
@@ -49,12 +53,6 @@ ScalarConverter & ScalarConverter::operator=( const ScalarConverter & other )
 // member functions
 // ****************************************************************************
 
-char	ScalarConverter::get_char( int val )
-{
-	if (val >=0 && val < 256)
-		return (static_cast<char>(val));
-	return (static_cast<char>(255));
-}
 int	ScalarConverter::is_digit( const std::string & arg, int ptr )
 {
 	int	cptr = ptr;
@@ -86,7 +84,9 @@ int	ScalarConverter::is_what( const std::string & arg )
 			|| arg == "-inf" || arg == "+inff" || arg == "+inf")
 		return (4);
 	// ******* int test *******
-	ptr = is_digit( arg, 0 );
+	if(arg[ptr] == '-' || arg[ptr] == '+')
+		ptr++;
+	ptr = is_digit( arg, ptr );
 	if (ptr == -1)
 		return (5);
 	if (ptr == 0)
@@ -151,111 +151,120 @@ void	ScalarConverter::convert( const std::string & arg )
 {
 	char		c = 0;
 	int			i = 0;
+	long		il = 0;
 	std::string	is = "";
 	float		f = 0.0;
 	std::string	fs = "";
 	double		d = 0.0;
 	std::string ds = "";
-	int 		status = 0;
 	
-	status	= is_what( arg );
-	switch (status)
+	switch (is_what(arg))
 	{
-		case 0: // single char
+		case 0:
+		// ******* single char *******
 			c = arg[0];
 			i = static_cast<int>(c);
+			f = static_cast<float>(c);
+			d = static_cast<double>(c);
+			break ;
+		case 1: 
+		// ******* int ********
+			il = atol(arg.c_str());
+			if (il > INT_MAX || il < INT_MIN)
+			{
+				is = "impossible";
+				c = static_cast<char>(255);
+			}
+			else
+			{
+				i = static_cast<int>(il);
+				//c = get_char(i);
+				c = static_cast<char>(i);	
+			}
 			f = static_cast<float>(i);
 			d = static_cast<double>(i);
 			break ;
-		case 1: // int
-			try
-			{
-				i = std::stoi( arg, NULL, 10);
-				c = get_char(i);
-			}
-			catch(const std::out_of_range& e)
-			{
-				is = "overflow";
-				static_cast<char>(255);
-			}
-			f = std::stof( arg, NULL );
-			d = std::stod( arg, NULL );
-			break ;
-		case 2: // float
-			f = std::stof( arg, NULL );
+		case 2:
+		// ******* float ********
+			f = strtof(arg.c_str(), NULL);
 			if (f > static_cast<float>(INT_MAX) 
 				|| f < static_cast<float>(INT_MIN))
 			{
-				i = static_cast<int>(f);
-				c = get_char(i);
+				is = "impossible";
+				c = static_cast<char>(255);	
 			}
 			else
 			{
-				is = "impossible";
-				c = static_cast<char>(255);
+				i = static_cast<int>(f);
+				c = static_cast<char>(f);
 			}
 			d = static_cast<double>(f);
 			break ;
-		case 3: // double
-			d = std::stod( arg, NULL );
+		case 3:
+		// ******* double *******
+			d = strtod(arg.c_str(), NULL);
 			if (d > static_cast<double>(INT_MAX) 
 				|| f < static_cast<double>(INT_MIN))
 			{
-				i = static_cast<int>(d);
-				c = get_char(i);
+				is = "impossible";
+				c = static_cast<char>(255);	
 			}
 			else
 			{
-				is = "impossible";
-				c = static_cast<char>(255);
+				i = static_cast<int>(d);
+				c = static_cast<char>(d);
 			}
-			i = static_cast<int>(d);
-			c = get_char(i);
 			f = static_cast<float>(d);
 			break ;
-		case 4: // pseudo literal
+		case 4:
+		// ******* pseudo literal *******
 			c = static_cast<char>(255);
 			is = "impossible";
-			try
+			if (arg == "nanf" || arg == "inff" || arg == "-inff" || arg == "+inff")
 			{
-				f = std::stof( arg, NULL );
+				f = strtof( arg.c_str(), NULL );
+				d = static_cast<double>(f);
 			}
-			catch(const std::invalid_argument& e)
+			else
 			{
-				fs = "impossible";
-			}
-			try
-			{
-				d = std::stod( arg, NULL );
-			}
-			catch(const std::exception& e)
-			{
-				ds = "impossible";
+				d = strtod( arg.c_str(), NULL );
+				f = static_cast<float>(d);
 			}
 			break ;
-		case 5: // other case
+		case 5: 
+		// ******* other case *******
 			c = static_cast<char>(255);
 			is = "impossible";
 			fs = "impossible";
 			ds = "impossible";
 	}
+	// ******* print results *******
 	if (c > 31 && c < 127)
-		std::cout << "char: '" << c << "' " << status << std::endl;
+		std::cout << "char: '" << c << "' " << std::endl;
 	else if ((c >= 0 && c < 32 )|| c == 127)
-		std::cout << "char: Non displayable" << status << std::endl;
+		std::cout << "char: Non displayable" << std::endl;
 	else
-		std::cout << "char: impossible" << status << std::endl;
+		std::cout << "char: impossible" << std::endl;
 	if (is.empty())
-		std::cout << "int: " << i << " " << status << std::endl;
+		std::cout << "int: " << i << " " << std::endl;
 	else
-		std::cout << "int: " << is << status << std::endl;
+		std::cout << "int: " << is << std::endl;
+	if(fabs(f - static_cast<int>(f)) < 1e-6)
+		std::cout << std::fixed << std::setprecision(1);
+	else
+		std::cout.unsetf(std::ios::fixed);
 	if (fs.empty())
-		std::cout << "float: " << f << "f " << status << std::endl;
+		std::cout << "float: " << f << "f" << std::endl;
 	else
-		std::cout << "float: " << fs << status << std::endl;
+		std::cout << "float: " << fs << std::endl;
+	if(fabs(d - static_cast<int>(d)) < 1e-6)
+		std::cout << std::fixed << std::setprecision(1);
+	else
+		std::cout.unsetf(std::ios::fixed);
 	if (ds.empty())
-		std::cout << "double: " << d << " " << status << std::endl;
+		std::cout << "double: " << d << std::endl;
 	else
-		std::cout << "double: " << ds << status << std::endl;
+		std::cout << "double: " << ds << std::endl;
+	std::cout.unsetf(std::ios::fixed);
 	return ;
 }
