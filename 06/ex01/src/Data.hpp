@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Data.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/31 21:46:04 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/18 22:25:47 by lgerard          ###   ########.fr       */
+/*   Created: 2025/09/18 20:18:50 by lgerard           #+#    #+#             */
+/*   Updated: 2025/09/18 20:31:41 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ScalarConverter.hpp"
-#include <iostream>
+#ifndef DATA_HPP
+# define DATA_HPP
 
-int main( int argc, char ** argv )
+# include <string>
+
+struct Data
 {
-	if (argc != 2)
-	{
-		std::cout 	<< "One parameter needed : ./convert <char literal>" 
-					<< std::endl;
-		return (1);
-	}
-	ScalarConverter::convert( argv[1] );
-	return (0);
-}
+	int			x;
+	int			y;
+	std::string	txt;
+};
+#endif

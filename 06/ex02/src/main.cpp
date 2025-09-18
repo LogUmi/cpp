@@ -6,21 +6,36 @@
 /*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 21:46:04 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/18 22:25:47 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/18 22:30:06 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ScalarConverter.hpp"
 #include <iostream>
+#include <string>
+#include <cstdlib>
+#include <ctime>
+#include "Base.hpp"
+#include "A.hpp"
+#include "B.hpp"
+#include "C.hpp"
 
-int main( int argc, char ** argv )
+Base* generate(void)
 {
-	if (argc != 2)
-	{
-		std::cout 	<< "One parameter needed : ./convert <char literal>" 
-					<< std::endl;
-		return (1);
-	}
-	ScalarConverter::convert( argv[1] );
+
+}
+
+void identify(Base* p)
+{
+	
+}
+
+void identify(Base& p)
+{
+	
+}
+
+int main( void )
+{
+	srand(time(NULL));
 	return (0);
 }
