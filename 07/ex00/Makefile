@@ -1,12 +1,8 @@
-NAME = base
+NAME = whatever
 OBJ = obj
 OBJDIR = obj/
 SRCDIR = src/
-FILEC =	main.cpp \
-		Base.cpp \
-		A.cpp \
-		B.cpp \
-		C.cpp
+FILEC =	main.cpp 
 OBJS = $(patsubst %.cpp, $(OBJDIR)/%.o, $(FILEC))
 SRCS = $(addprefix	$(SRCDIR),	$(FILEC))
 DEPS = $(OBJS:.o=.d)

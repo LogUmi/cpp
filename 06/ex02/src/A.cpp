@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "A.hpp"
+#include <iostream>
 #include "A.hpp"
 
 // ****************************************************************************
@@ -19,7 +19,7 @@
 
 A::A ( void )
 {
-	//std::cout << "A default constructor executed" <<std::endl;
+	std::cout << "A default constructor executed" <<std::endl;
 	return ;
 }
 

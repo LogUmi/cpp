@@ -13,7 +13,9 @@
 #ifndef C_HPP
 # define C_HPP
 
-class C
+# include "Base.hpp"
+
+class C: public Base
 {
 	public:
 				C ( void );

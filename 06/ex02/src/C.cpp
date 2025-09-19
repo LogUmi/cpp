@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "C.hpp"
+#include <iostream>
 #include "C.hpp"
 
 // ****************************************************************************
@@ -19,7 +19,7 @@
 
 C::C ( void )
 {
-	//std::cout << "C default constructor executed" <<std::endl;
+	std::cout << "C default constructor executed" <<std::endl;
 	return ;
 }
 

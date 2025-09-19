@@ -13,7 +13,9 @@
 #ifndef B_HPP
 # define B_HPP
 
-class B
+#include "Base.hpp"
+
+class B: public Base
 {
 	public:
 				B( void );
