@@ -1,8 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   array.hpp                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/20 16:27:41 by lgerard           #+#    #+#             */
+/*   Updated: 2025/09/20 16:50:59 by lgerard          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef ARRAY_HPP
 # define ARRAY_HPP
 
 # include <stdexcept>
-# include <cstddef>
 
 template < typename T >
 class Array
@@ -11,46 +22,16 @@ class Array
 		T*				data;
 		unsigned int	n;
 	public:
-		Array ( void ):data(0), n(0){};
-		Array ( unsigned int n ):data(0), n(n)
-		{
-			data = new T[n]();
-		}
-		Array ( const Array & other)
-		{
-			this->n = other.n;
-			this->data = new T[this->n];
-			for (unsigned int i = 0; i < this->n; i++)
-				this->data[i] = other.data[i];
-		}
-		~Array ( void ){delete[] this->data;}
+		Array		( void );
+		Array		( unsigned int n );
+		Array		( const Array & other);
+		~Array		( void );
 		
-		Array &	operator=( const Array & other)
-		{
-			if (this != &other)
-			{
-				this->n = other.n;
-				delete[] this->data;
-				this->data = new T[this->n];
-				for (unsigned int i = 0; i < this->n; i++)
-					this->data[i] = other.data[i];
-			}
-			return (*this);
-		}
+		Array<T> &	operator=( const Array & other );
+		T &			operator[]( const unsigned int idx );
+		const T & 	operator[]( const unsigned int idx ) const;
 		
-		T & operator[]( const std::size_t idx )
-		{
-			if (idx >= this->n)
-				throw std::out_of_range("array index");
-			return (this->data[idx]);
-		}
-		const T & operator[]( const std::size_t idx ) const
-		{
-			if (idx >= this->n)
-				throw std::out_of_range("array index");
-			return (this->data[idx]);
-		}
-
-		unsigned int size() const { return this->n; }
+		unsigned int 	size( void ) const;
 };
+# include "Array.tpp"
 #endif
