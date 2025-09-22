@@ -16,6 +16,8 @@
 # include <string>
 # include "Data.hpp"
 
+typedef unsigned long long uintptr_t;
+
 class Serializer
 {
 	private:

@@ -5,7 +5,7 @@
 #include <iostream> 
 
 template < typename T >
-void	Iter( const T* ptr, const size_t l, void (*ft)( const T &))
+void	iter( const T* ptr, const size_t l, void (*ft)( const T &))
 {
 	for (size_t i = 0; i < l; i++)
 		ft( ptr[i] );

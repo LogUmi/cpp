@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: lgerard <lgerard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 21:46:04 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/19 17:18:39 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/22 18:33:31 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "A.hpp"
 #include "B.hpp"
 #include "C.hpp"
+#include <exception>
 
 Base* generate(void)
 {
@@ -61,7 +62,7 @@ void identify(Base& p)
 		std::cout << "A says identify&" << std::endl;
 		return ;
 	}
-	catch (const std::bad_cast & e){}
+	catch (const std::exception & e){}
 	try
 	{
 		B& b = dynamic_cast<B&>(p);
@@ -69,7 +70,7 @@ void identify(Base& p)
 		std::cout << "B says identify&" << std::endl;
 		return ;
 	}
-	catch (const std::bad_cast & e){}
+	catch (const std::exception & e){}
 	try
 	{
 		C& c = dynamic_cast<C&>(p);
@@ -77,13 +78,13 @@ void identify(Base& p)
 		std::cout << "C says identify&" << std::endl;
 		return ;
 	}
-	catch (const std::bad_cast & e){}
+	catch (const std::exception & e){}
 	std::cout << "Unknown says identify&" << std::endl;
 }
 
 int main( void )
 {
-	Base*	clss[10] = { nullptr };
+	Base*	clss[10] = { 0 };
 	int		i = 0;
 
 	srand(time(NULL));

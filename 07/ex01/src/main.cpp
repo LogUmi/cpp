@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: lgerard <lgerard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 21:46:04 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/20 15:34:06 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/22 19:11:48 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <string>
-#include "Iter.hpp"
+#include "iter.hpp"
 
 
 int main( void )
@@ -34,7 +34,7 @@ int main( void )
 		std::cout << i[j] << " ";
 	std::cout << std::endl;
 	std::cout << "array with Iter   : ";
-	::Iter( i, 5, &print_member );
+	::iter( i, 5, &print_member );
 	std::cout << std::endl;
 	std::cout 	<< "********************************************" 
 				<< "********************************************" 
@@ -45,7 +45,7 @@ int main( void )
 		std::cout << f[j] << " ";
 	std::cout << std::endl;
 	std::cout << "array with Iter     : ";
-	::Iter( f, 5, &print_member );
+	::iter( f, 5, &print_member );
 	std::cout << std::endl;
 	std::cout 	<< "********************************************" 
 				<< "********************************************" 
@@ -56,7 +56,7 @@ int main( void )
 		std::cout << d[j] << " ";
 	std::cout << std::endl;
 	std::cout << "array with Iter      : ";
-	::Iter( d, 5, &print_member );
+	::iter( d, 5, &print_member );
 	std::cout << std::endl;
 	std::cout 	<< "********************************************" 
 				<< "********************************************" 
@@ -67,7 +67,7 @@ int main( void )
 		std::cout << p[j] << " ";
 	std::cout << std::endl;
 	std::cout << "array with Iter       : ";
-	::Iter( p, 5, &print_member );
+	::iter( p, 5, &print_member );
 	std::cout << std::endl;
 	std::cout 	<< "********************************************" 
 				<< "********************************************" 
@@ -78,7 +78,7 @@ int main( void )
 		std::cout << s[j] << " ";
 	std::cout << std::endl;
 	std::cout << "array with Iter           : ";
-	::Iter( s, 5, &print_member );
+	::iter( s, 5, &print_member );
 	std::cout << std::endl;
 	std::cout 	<< "********************************************" 
 				<< "********************************************" 
@@ -89,7 +89,7 @@ int main( void )
 		std::cout << c[j] << " ";
 	std::cout << std::endl;
 	std::cout << "array with Iter    : ";
-	::Iter( c, 15, &print_member );
+	::iter( c, 15, &print_member );
 	std::cout << std::endl;
 	std::cout 	<< "********************************************" 
 				<< "********************************************" 
