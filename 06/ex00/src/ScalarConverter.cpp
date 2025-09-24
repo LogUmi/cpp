@@ -6,7 +6,7 @@
 /*   By: lgerard <lgerard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 20:27:59 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/18 18:44:44 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/24 18:03:57 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,15 +174,16 @@ void	ScalarConverter::convert( const std::string & arg )
 			{
 				is = "impossible";
 				c = static_cast<char>(255);
+				fs = "impossible";
+				ds = "impossible";
 			}
 			else
 			{
 				i = static_cast<int>(il);
-				//c = get_char(i);
 				c = static_cast<char>(i);	
+				f = static_cast<float>(i);
+				d = static_cast<double>(i);
 			}
-			f = static_cast<float>(i);
-			d = static_cast<double>(i);
 			break ;
 		case 2:
 		// ******* float ********

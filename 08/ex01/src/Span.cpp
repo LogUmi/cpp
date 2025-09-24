@@ -6,11 +6,12 @@
 /*   By: lgerard <lgerard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 15:36:22 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/23 19:59:45 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/24 19:03:19 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Span.hpp"
+#include <stdexcept>
 
 /******************************************************************************/
 /* Constructors and destructor                                                */
@@ -29,8 +30,7 @@ Span::Span( unsigned int n)
 }
 
 Span::Span( const Span & other )
-:	data(0),
-	N(other.N)
+:	data(0)
 {
 	this->data = new int[this->N];
 	for (unsigned int i = 0; i < other.N; i++)
@@ -81,5 +81,5 @@ Span::operator[](const unsigned int idx)
 
 unsigned int Span::size( void ) const
 {
-	return ( this->n );
+	return ( thdis->n );
 }

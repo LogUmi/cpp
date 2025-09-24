@@ -1,4 +1,4 @@
-NAME = span
+NAME = ex01
 OBJ = obj
 OBJDIR = obj/
 SRCDIR = src/
