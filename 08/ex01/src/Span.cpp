@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   Span.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgerard <lgerard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 15:36:22 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/24 19:03:19 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/25 00:22:17 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Span.hpp"
 #include <stdexcept>
+#include <algorithm>
+#include <limits>
 
 /******************************************************************************/
 /* Constructors and destructor                                                */
@@ -24,62 +26,61 @@ Span::Span( void )
 
 Span::Span( unsigned int n)
 :	data(0),
-	N(N)
-{
-	data = new int[N]();
-}
+	N(n)
+{}
 
 Span::Span( const Span & other )
-:	data(0)
-{
-	this->data = new int[this->N];
-	for (unsigned int i = 0; i < other.N; i++)
-		this->data[i] = other.data[i];
-}
+:	data(other.data),
+	N(other.N)
+{}
 
 Span::~Span( void )
-{
-	delete[] this->data;
-}
+{}
 
 /******************************************************************************/
 /* overload of operators                                                      */
 /******************************************************************************/
 
-Span &	Span::operator=(const Span & other)
+Span &	Span::operator=( Span other )
 {
-	if (this != &other)
-	{
-		this->N = other.N;
-		if (this->N == 0)
-		{
-			delete[] this->data;
-			data = 0;
-		}
-		else
-		{
-			int* tmp = new int[this->N];
-			for (unsigned int i = 0; i < this->N; i++)
-				tmp[i] = other.data[i];
-			delete[] this->data;
-			this->data = tmp;
-		}
-	}
+	std::swap(this->N, other.N);
+	std::swap(this->data, other.data);
 	return (*this);
-}
-
-Span::operator[](const unsigned int idx)
-{
-	if (idx >= this->n)
-		throw std::out_of_range("index out of range");
-	return (this->data[idx]);
 }
 
 /******************************************************************************/
 /* member functions                                                           */
 /******************************************************************************/
 
-unsigned int Span::size( void ) const
+void	Span::addNumber( const int i)
 {
-	return ( thdis->n );
+	if (data.size() >= this->N)
+		throw std::length_error("Span: data is already full");
+	data.push_back(i);
+}
+
+unsigned int	Span::shortestSpan( void ) const
+{
+	if (data.size() < 2)
+		throw std::logic_error("Span: no enough numbers");
+	std::vector<int> tmp(data);
+	std::sort(tmp.begin(), tmp.end());
+
+	unsigned int smin = std::numeric_limits<unsigned int>::max();
+	int	sous = 0;
+
+	for (std::vector<int>::iterator it = tmp.begin(); it != (tmp.end() - 1); it++)
+	{
+		sous = *(it + 1) - *it;
+		if (sous < smin)
+			smin = sous; 
+	}
+	return (smin);
+}
+
+unsigned int Span::longestSpan( void ) const
+{
+	if (data.size() < 2)
+		throw std::logic_error("Span: no enough numbers");
+	return (*std::max_element(data.begin(), data.end()) - *std::min_element(data.begin(), data.end()));
 }
