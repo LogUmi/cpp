@@ -3,7 +3,7 @@ OBJ = obj
 OBJDIR = obj/
 SRCDIR = src/
 FILEC =	main.cpp \
-		span.cpp
+		Span.cpp
 OBJS = $(patsubst %.cpp, $(OBJDIR)/%.o, $(FILEC))
 SRCS = $(addprefix	$(SRCDIR),	$(FILEC))
 DEPS = $(OBJS:.o=.d)
