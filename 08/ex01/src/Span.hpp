@@ -6,7 +6,7 @@
 /*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 16:27:41 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/25 00:07:13 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/26 19:15:24 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define SPAN_HPP
 
 #include <vector>
+#include <cstddef>
 
 class Span
 {
@@ -31,5 +32,14 @@ class Span
 		void			addNumber( const int i );
 		unsigned int	shortestSpan( void ) const;
 		unsigned int	longestSpan( void ) const;
-};
+
+		template <typename InputIterator>
+		void	addNumber( InputIterator first, InputIterator last )
+		{
+			size_t distance = std::distance(first, last);
+			if (distance > (this->N - this->data.size()))
+				throw std::logic_error("Span: too much data");
+			data.insert(this->data.end(), first, last);
+		}
+	};
 #endif

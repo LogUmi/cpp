@@ -6,7 +6,7 @@
 /*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 15:36:22 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/25 12:37:27 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/26 17:47:21 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdexcept>
 #include <algorithm>
 #include <limits>
+#include <iterator>
 
 /******************************************************************************/
 /* Constructors and destructor                                                */
@@ -81,6 +82,6 @@ unsigned int	Span::shortestSpan( void ) const
 unsigned int Span::longestSpan( void ) const
 {
 	if (data.size() < 2)
-		throw std::logic_error("Span: no enough numbers");
+		throw std::logic_error("Span: not enough numbers");
 	return (*std::max_element(data.begin(), data.end()) - *std::min_element(data.begin(), data.end()));
 }
