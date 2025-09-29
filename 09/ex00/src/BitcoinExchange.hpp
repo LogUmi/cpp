@@ -6,7 +6,7 @@
 /*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 16:27:41 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/29 02:01:00 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/29 22:05:56 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ class BitcoinExchange
 
 		void	tmp_str_cpy(std::string & str, int n, int pos);
 		size_t	is_digit(std::string & str, int offst) const;
-		size_t	is_date(std::string & str);
-		void	is_value(std::string & str, int offst);
+		size_t	set_date(std::string & str);
+		void	set_value(std::string & str, int offst);
 
 	public:
 							BitcoinExchange( void );

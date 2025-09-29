@@ -6,7 +6,7 @@
 /*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 15:36:22 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/29 02:45:33 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/30 00:54:32 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ size_t	BitcoinExchange::is_digit(std::string & str, int offs) const
 	return (i);
 }
 
-size_t	BitcoinExchange:: is_date(std::string & str)
+size_t	BitcoinExchange::set_date(std::string & str)
 {
 	int			offst = 0;
 	int			poffst = 0;
@@ -84,33 +84,32 @@ size_t	BitcoinExchange:: is_date(std::string & str)
 	std::memset(&this->time_s, 0, sizeof(time_s));
 	std::memset(&tmps, 0, sizeof(tmps));
 	if ((offst = is_digit( str, offst )) < 1)
-		throw std::runtime_error("Error: bad input => " + str);
+		throw std::runtime_error("Error: bad input digit1 => " + str);
 	tmp_str_cpy(str, offst - poffst, poffst);
 	time_s.tm_year = atoi(tmps);
 	if (time_s.tm_year < 1900 || str[offst] != '-')
-		throw std::runtime_error("Error: bad input => " + str);
+		throw std::runtime_error("Error: bad input 1900 => " + str);
 	poffst = ++offst;
 	if ((offst = is_digit( str, offst )) < 1)
-		throw std::runtime_error("Error: bad input => " + str);
+		throw std::runtime_error("Error: bad input digit2 => " + str);
 	tmp_str_cpy(str, offst - poffst, poffst);
 	time_s.tm_mon = atoi(tmps) - 1;
 	if (time_s.tm_mon < 0 || time_s.tm_mon > 11 || str[offst] != '-')
-		throw std::runtime_error("Error: bad input => " + str);
+		throw std::runtime_error("Error: bad input month => " + str);
 	poffst = ++offst;
 	if ((offst = is_digit( str, offst )) < 1)
-		throw std::runtime_error("Error: bad input => " + str);
+		throw std::runtime_error("Error: bad input digit 3 => " + str);
 	tmp_str_cpy(str, offst - poffst, poffst);
 	time_s.tm_mday = atoi(tmps);
-	if (time_s.tm_mon < 1 || time_s.tm_mon > 31 || !(str[offst] == ',' || str[offst] == '|'))
+	if (time_s.tm_mday < 1 || time_s.tm_mday > 31 || !(str[offst] == ',' || str[offst] == '|'))
 		throw std::runtime_error("Error: bad input => " + str);
 	return (++offst);
 }
 
-void	BitcoinExchange::is_value(std::string & str, int offst)
+void	BitcoinExchange::set_value(std::string & str, int offst)
 {
 	int	poffst = offst;
 
-	std::memset(&this->time_s, 0, sizeof(time_s));
 	std::memset(&tmps, 0, sizeof(tmps));
 	if (str[offst] == '-' || str[offst] == '+')
 	{
@@ -119,24 +118,27 @@ void	BitcoinExchange::is_value(std::string & str, int offst)
 		poffst = ++offst;
 	}
 	if ((offst = is_digit( str, offst )) < 0)
-		throw std::runtime_error("Error: bad input => " + str);
-	if (offst == 0)
+	{
+		std::cout << offst << " " << str[offst];
+		throw std::runtime_error("Error: bad input digit4 => " + str);
+	}
+		if (offst == 0)
 	{}
 	else if (str[offst] == '.')
 	{
 		offst++;
 		if ((offst = is_digit( str, offst )) < 0)
-			throw std::runtime_error("Error: bad input => " + str);
-		if (str[offst] == 'e' || str[offst] == 'E')
+			throw std::runtime_error("Error: bad input digit5 => " + str);
+		if (offst != 0 && (str[offst] == 'e' || str[offst] == 'E'))
 		{
 			offst++;
 			if (str[offst] == '-' || str[offst] == '+')
 				offst++;
 			if ((offst = is_digit( str, offst )) != 0)
-				throw std::runtime_error("Error: bad input => " + str);
+				throw std::runtime_error("Error: bad input digit6 => " + str);
 		}
-		else
-			throw std::runtime_error("Error: bad input => " + str);
+		else if (offst != 0)
+			throw std::runtime_error("Error: bad input digit7  => " + str);
 	}
 	else if (str[offst] == 'e' || str[offst] == 'E')
 	{
@@ -144,7 +146,7 @@ void	BitcoinExchange::is_value(std::string & str, int offst)
 		if (str[offst] == '-' || str[offst] == '+')
 			offst++;
 		if ((offst = is_digit( str, offst )) != 0)
-			throw std::runtime_error("Error: bad input => " + str);
+			throw std::runtime_error("Error: bad input digit8 => " + str);
 	}
 	tmp_str_cpy(str, static_cast<int>(str.size()) - poffst, poffst);
 	this->value = strtof(tmps, NULL);
@@ -155,8 +157,12 @@ void	BitcoinExchange::line_integration( std::string str)
 {
 	try
 	{
-		int	offst = is_date(str);
-		is_value(str, offst);
+		int	offst = set_date(str);
+		set_value(str, offst);
+		std::pair<std::map<time_t, float>::iterator, bool> exist =
+				this->data.insert(std::make_pair(mktime(&this->time_s), this->value));
+		if (!exist.second)
+			throw std::runtime_error("Error: key already exist - nothing recorded " + str);
 	}
 	catch(const std::runtime_error & e)
 	{
@@ -168,8 +174,17 @@ void	BitcoinExchange::seek_line( std::string str )
 {
 	try
 	{
-		int	offst = is_date(str);
-		is_value(str, offst);
+		int	offst = set_date(str);
+		set_value(str, offst);
+		str.copy(this->tmps, offst - 1, 0);
+		if (this->value > 1000.0)
+			throw std::runtime_error("Error: a too large number.");
+		std::map<std::time_t, float>::iterator it = this->data.upper_bound(mktime(&this->time_s));
+		if (it == this->data.begin())
+			throw std::runtime_error("Error: no anterior date recorded.");
+		else
+			it--;
+		std::cout << this->tmps << " => " << this->value << " = " << (this->value * it->second) << std::endl;
 	}
 	catch(const std::runtime_error & e)
 	{
