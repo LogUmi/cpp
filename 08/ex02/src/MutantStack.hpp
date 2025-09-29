@@ -39,11 +39,11 @@ class MutantStack: public std::stack<T>
 
 		iterator				begin( void ) { return (this->c.begin()); };
 		iterator				end( void ) { return(this->c.end()); };
-		const_iterator			begin( void ) const { return (this->c.begin()); };
-		const_iterator			end( void ) const { return(this->c.end()); };
+		const_iterator			begin( void ) const { return (this->c.cbegin()); };
+		const_iterator			end( void ) const { return(this->c.cend()); };
 		reverse_iterator		rbegin( void ) { return (this->c.rbegin()); };
-		reverse_iterator		rend( void ) { return(this->crend()); };
-		const_reverse_iterator	rbegin( void ) const { return (this->c.rbegin()); };
-		const_reverse_iterator	rend( void ) const { return(this->c.rend()); };
+		reverse_iterator		rend( void ) { return(this->c.rend()); };
+		const_reverse_iterator	rbegin( void ) const { return (this->c.crbegin()); };
+		const_reverse_iterator	rend( void ) const { return(this->c.crend()); };
 };
 #endif

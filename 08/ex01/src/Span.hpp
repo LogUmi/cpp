@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Span.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: lgerard <lgerard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 16:27:41 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/26 19:15:24 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/29 15:39:48 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include <vector>
 #include <cstddef>
+#include <stdexcept>
 
 class Span
 {
