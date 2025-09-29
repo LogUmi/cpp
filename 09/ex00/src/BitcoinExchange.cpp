@@ -6,7 +6,7 @@
 /*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 15:36:22 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/29 02:21:47 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/29 02:45:33 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,18 +121,34 @@ void	BitcoinExchange::is_value(std::string & str, int offst)
 	if ((offst = is_digit( str, offst )) < 0)
 		throw std::runtime_error("Error: bad input => " + str);
 	if (offst == 0)
+	{}
+	else if (str[offst] == '.')
 	{
-		tmp_str_cpy(str, static_cast<int>(str.size()) - poffst, poffst);
-		this->value = strtof(tmps, NULL);
-		return ;
-	}
-	if (str[offst] == '.')
-	{
-		if (str[offst] == '-')
-			throw std::runtime_error("Error: not a positive number.");
 		offst++;
+		if ((offst = is_digit( str, offst )) < 0)
+			throw std::runtime_error("Error: bad input => " + str);
+		if (str[offst] == 'e' || str[offst] == 'E')
+		{
+			offst++;
+			if (str[offst] == '-' || str[offst] == '+')
+				offst++;
+			if ((offst = is_digit( str, offst )) != 0)
+				throw std::runtime_error("Error: bad input => " + str);
+		}
+		else
+			throw std::runtime_error("Error: bad input => " + str);
 	}
-	else if (str[offst] == 'e' ||)
+	else if (str[offst] == 'e' || str[offst] == 'E')
+	{
+		offst++;
+		if (str[offst] == '-' || str[offst] == '+')
+			offst++;
+		if ((offst = is_digit( str, offst )) != 0)
+			throw std::runtime_error("Error: bad input => " + str);
+	}
+	tmp_str_cpy(str, static_cast<int>(str.size()) - poffst, poffst);
+	this->value = strtof(tmps, NULL);
+	return ;
 }
 
 void	BitcoinExchange::line_integration( std::string str)
