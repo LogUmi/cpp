@@ -6,7 +6,7 @@
 /*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 16:27:41 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/28 22:46:01 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/29 02:01:00 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,23 @@
 #include <map>
 #include <ctime>
 #include <string>
+#include <cstdlib>
 
-#define DATAFILE "data.csv"
+#define DATAFILE 		"data.csv"
+#define TMP_STR_LEN		256
 
 class BitcoinExchange
 {
 	private:
 		std::map<time_t, float> data;
+		struct tm				time_s;
+		float					value;
+		char					tmps[TMP_STR_LEN];
+
+		void	tmp_str_cpy(std::string & str, int n, int pos);
+		size_t	is_digit(std::string & str, int offst) const;
+		size_t	is_date(std::string & str);
+		void	is_value(std::string & str, int offst);
 
 	public:
 							BitcoinExchange( void );
