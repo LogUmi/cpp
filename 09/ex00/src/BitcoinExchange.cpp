@@ -6,7 +6,7 @@
 /*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 15:36:22 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/30 00:54:32 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/30 12:19:48 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,21 +84,21 @@ size_t	BitcoinExchange::set_date(std::string & str)
 	std::memset(&this->time_s, 0, sizeof(time_s));
 	std::memset(&tmps, 0, sizeof(tmps));
 	if ((offst = is_digit( str, offst )) < 1)
-		throw std::runtime_error("Error: bad input digit1 => " + str);
+		throw std::runtime_error("Error: bad input => " + str);
 	tmp_str_cpy(str, offst - poffst, poffst);
 	time_s.tm_year = atoi(tmps);
 	if (time_s.tm_year < 1900 || str[offst] != '-')
-		throw std::runtime_error("Error: bad input 1900 => " + str);
+		throw std::runtime_error("Error: bad input => " + str);
 	poffst = ++offst;
 	if ((offst = is_digit( str, offst )) < 1)
-		throw std::runtime_error("Error: bad input digit2 => " + str);
+		throw std::runtime_error("Error: bad input => " + str);
 	tmp_str_cpy(str, offst - poffst, poffst);
 	time_s.tm_mon = atoi(tmps) - 1;
 	if (time_s.tm_mon < 0 || time_s.tm_mon > 11 || str[offst] != '-')
-		throw std::runtime_error("Error: bad input month => " + str);
+		throw std::runtime_error("Error: bad input => " + str);
 	poffst = ++offst;
 	if ((offst = is_digit( str, offst )) < 1)
-		throw std::runtime_error("Error: bad input digit 3 => " + str);
+		throw std::runtime_error("Error: bad input => " + str);
 	tmp_str_cpy(str, offst - poffst, poffst);
 	time_s.tm_mday = atoi(tmps);
 	if (time_s.tm_mday < 1 || time_s.tm_mday > 31 || !(str[offst] == ',' || str[offst] == '|'))
@@ -120,7 +120,7 @@ void	BitcoinExchange::set_value(std::string & str, int offst)
 	if ((offst = is_digit( str, offst )) < 0)
 	{
 		std::cout << offst << " " << str[offst];
-		throw std::runtime_error("Error: bad input digit4 => " + str);
+		throw std::runtime_error("Error: bad input => " + str);
 	}
 		if (offst == 0)
 	{}
@@ -128,17 +128,17 @@ void	BitcoinExchange::set_value(std::string & str, int offst)
 	{
 		offst++;
 		if ((offst = is_digit( str, offst )) < 0)
-			throw std::runtime_error("Error: bad input digit5 => " + str);
+			throw std::runtime_error("Error: bad input => " + str);
 		if (offst != 0 && (str[offst] == 'e' || str[offst] == 'E'))
 		{
 			offst++;
 			if (str[offst] == '-' || str[offst] == '+')
 				offst++;
 			if ((offst = is_digit( str, offst )) != 0)
-				throw std::runtime_error("Error: bad input digit6 => " + str);
+				throw std::runtime_error("Error: bad input => " + str);
 		}
 		else if (offst != 0)
-			throw std::runtime_error("Error: bad input digit7  => " + str);
+			throw std::runtime_error("Error: bad input => " + str);
 	}
 	else if (str[offst] == 'e' || str[offst] == 'E')
 	{
@@ -146,7 +146,7 @@ void	BitcoinExchange::set_value(std::string & str, int offst)
 		if (str[offst] == '-' || str[offst] == '+')
 			offst++;
 		if ((offst = is_digit( str, offst )) != 0)
-			throw std::runtime_error("Error: bad input digit8 => " + str);
+			throw std::runtime_error("Error: bad input => " + str);
 	}
 	tmp_str_cpy(str, static_cast<int>(str.size()) - poffst, poffst);
 	this->value = strtof(tmps, NULL);
@@ -166,7 +166,7 @@ void	BitcoinExchange::line_integration( std::string str)
 	}
 	catch(const std::runtime_error & e)
 	{
-		std::cout << e.what() << std::endl;
+		std::cout << e.what() << " during database integration." << std::endl;
 	}
 }
 
