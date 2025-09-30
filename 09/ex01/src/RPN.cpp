@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RPN.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: lgerard <lgerard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 15:36:22 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/30 13:31:14 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/30 19:28:48 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,14 @@ RPN &	RPN::operator=( RPN other )
 
 int	RPN::exec(std::string str)
 {
-	if (str.empty() == true)
-	{
-		std::cerr << "Error" << std::endl;
-		return (1);
-	}
 	size_t	offst = 0;
 	size_t	nb = 0;
+	int		i = 0;
+	
 	while (offst != str.size())
 	{
 		if (isspace(str[offst]))
-		{
 			nb = 0;
-			offst++;
-		}
 		else if (isdigit(str[offst]))
 		{
 			if (nb != 0)
@@ -68,10 +62,10 @@ int	RPN::exec(std::string str)
 				return (1);
 			}
 			nb++;
-			data.push(str[offst++] - 48);
+			data.push(str[offst] - 48);
 		}
-		else if (str[offst] == '+' || str[offst] == '-'
-					|| str[offst] == '*' || str[offst] == '/')
+		else if (this->data.size() >= 2 && (str[offst] == '+' || str[offst] == '-'
+					|| str[offst] == '*' || str[offst] == '/'))
 		{
 			if (nb != 0)
 			{
@@ -79,12 +73,41 @@ int	RPN::exec(std::string str)
 				return (1);
 			}
 			nb++;
-			switch (str[offst++])
+			i = this->data.top();
+			this->data.pop();
+			switch (str[offst])
 			{
-				
+				case 42:
+					this->data.top() *= i;
+					break ;
+				case 43:
+					this->data.top() += i;
+					break ;
+				case 45:
+					this->data.top() -= i;
+					break;
+				case 47:
+					this->data.top() /= i;
+					break ;
+				default:
+					std::cerr << "Error" << std::endl;
+					return (1);
+					break ;
 			}
 		}
+		else
+		{
+			std::cerr << "Error" << std::endl;
+			return (1);
+		}
+		offst++;
 	}
-
+	if (this->data.size() != 1)
+	{
+		std::cerr << "Error" << std::endl;
+		return (1);
+	}
+	std::cout << this->data.top() << std::endl;
+	return (0);
 }
 

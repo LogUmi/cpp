@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RPN.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: lgerard <lgerard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 16:27:41 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/30 13:28:26 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/30 19:01:35 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ class RPN
 				~RPN( void );
 		RPN &	operator=( RPN other );
 
-		int		exec( std::string str);
+		int		exec( std::string str );
 };
 #endif
