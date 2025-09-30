@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: lgerard <lgerard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 21:46:04 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/28 23:13:42 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/30 15:25:13 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <fstream>
 #include <string>
 #include <stdexcept>
+#include <algorithm>
 #include "BitcoinExchange.hpp"
 
 void	treat_file( std::ifstream & ifs, bool type, BitcoinExchange & btc )

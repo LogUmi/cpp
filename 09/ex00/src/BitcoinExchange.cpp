@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: lgerard <lgerard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 15:36:22 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/30 12:19:48 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/09/30 16:38:48 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <fstream>
 #include <string>
 #include <iostream>
+#include <cstring>
 
 /******************************************************************************/
 /* Constructors and destructor                                                */
@@ -58,7 +59,7 @@ BitcoinExchange &	BitcoinExchange::operator=( BitcoinExchange other )
 void	BitcoinExchange::tmp_str_cpy(std::string & str, int n, int pos)
 {
 	if (n >= TMP_STR_LEN)
-		throw std::out_of_range("Error: BitcoinExchange::tmps overflow - rise TMP_STR_LEN");
+		throw std::out_of_range("BitcoinExchange::tmps overflow - rise TMP_STR_LEN");
 	str.copy(this->tmps, n, pos);
 	tmps[n] = '\0';
 }
@@ -84,25 +85,25 @@ size_t	BitcoinExchange::set_date(std::string & str)
 	std::memset(&this->time_s, 0, sizeof(time_s));
 	std::memset(&tmps, 0, sizeof(tmps));
 	if ((offst = is_digit( str, offst )) < 1)
-		throw std::runtime_error("Error: bad input => " + str);
+		throw std::runtime_error("bad input => " + str);
 	tmp_str_cpy(str, offst - poffst, poffst);
-	time_s.tm_year = atoi(tmps);
-	if (time_s.tm_year < 1900 || str[offst] != '-')
-		throw std::runtime_error("Error: bad input => " + str);
+	time_s.tm_year = atoi(tmps) - 1900;
+	if ((time_s.tm_year < -1900 || time_s.tm_year > 8099) || str[offst] != '-')
+		throw std::runtime_error("bad input => " + str);
 	poffst = ++offst;
 	if ((offst = is_digit( str, offst )) < 1)
-		throw std::runtime_error("Error: bad input => " + str);
+		throw std::runtime_error("bad input => " + str);
 	tmp_str_cpy(str, offst - poffst, poffst);
 	time_s.tm_mon = atoi(tmps) - 1;
 	if (time_s.tm_mon < 0 || time_s.tm_mon > 11 || str[offst] != '-')
-		throw std::runtime_error("Error: bad input => " + str);
+		throw std::runtime_error("bad input => " + str);
 	poffst = ++offst;
 	if ((offst = is_digit( str, offst )) < 1)
-		throw std::runtime_error("Error: bad input => " + str);
+		throw std::runtime_error("bad input => " + str);
 	tmp_str_cpy(str, offst - poffst, poffst);
 	time_s.tm_mday = atoi(tmps);
 	if (time_s.tm_mday < 1 || time_s.tm_mday > 31 || !(str[offst] == ',' || str[offst] == '|'))
-		throw std::runtime_error("Error: bad input => " + str);
+		throw std::runtime_error("bad input => " + str);
 	return (++offst);
 }
 
@@ -114,13 +115,13 @@ void	BitcoinExchange::set_value(std::string & str, int offst)
 	if (str[offst] == '-' || str[offst] == '+')
 	{
 		if (str[offst] == '-')
-			throw std::runtime_error("Error: not a positive number.");
+			throw std::runtime_error("not a positive number.");
 		poffst = ++offst;
 	}
 	if ((offst = is_digit( str, offst )) < 0)
 	{
 		std::cout << offst << " " << str[offst];
-		throw std::runtime_error("Error: bad input => " + str);
+		throw std::runtime_error("bad input => " + str);
 	}
 		if (offst == 0)
 	{}
@@ -128,17 +129,17 @@ void	BitcoinExchange::set_value(std::string & str, int offst)
 	{
 		offst++;
 		if ((offst = is_digit( str, offst )) < 0)
-			throw std::runtime_error("Error: bad input => " + str);
+			throw std::runtime_error("bad input => " + str);
 		if (offst != 0 && (str[offst] == 'e' || str[offst] == 'E'))
 		{
 			offst++;
 			if (str[offst] == '-' || str[offst] == '+')
 				offst++;
 			if ((offst = is_digit( str, offst )) != 0)
-				throw std::runtime_error("Error: bad input => " + str);
+				throw std::runtime_error("bad input => " + str);
 		}
 		else if (offst != 0)
-			throw std::runtime_error("Error: bad input => " + str);
+			throw std::runtime_error("bad input => " + str);
 	}
 	else if (str[offst] == 'e' || str[offst] == 'E')
 	{
@@ -146,7 +147,7 @@ void	BitcoinExchange::set_value(std::string & str, int offst)
 		if (str[offst] == '-' || str[offst] == '+')
 			offst++;
 		if ((offst = is_digit( str, offst )) != 0)
-			throw std::runtime_error("Error: bad input => " + str);
+			throw std::runtime_error("bad input => " + str);
 	}
 	tmp_str_cpy(str, static_cast<int>(str.size()) - poffst, poffst);
 	this->value = strtof(tmps, NULL);
@@ -162,11 +163,11 @@ void	BitcoinExchange::line_integration( std::string str)
 		std::pair<std::map<time_t, float>::iterator, bool> exist =
 				this->data.insert(std::make_pair(mktime(&this->time_s), this->value));
 		if (!exist.second)
-			throw std::runtime_error("Error: key already exist - nothing recorded " + str);
+			throw std::runtime_error("key already exist - nothing recorded " + str);
 	}
 	catch(const std::runtime_error & e)
 	{
-		std::cout << e.what() << " during database integration." << std::endl;
+		std::cout << "Database integration error: " << e.what() << std::endl;
 	}
 }
 
@@ -176,18 +177,18 @@ void	BitcoinExchange::seek_line( std::string str )
 	{
 		int	offst = set_date(str);
 		set_value(str, offst);
-		str.copy(this->tmps, offst - 1, 0);
+		this->tmp_str_cpy(str, offst - 1, 0);
 		if (this->value > 1000.0)
-			throw std::runtime_error("Error: a too large number.");
+			throw std::runtime_error("a too large number.");
 		std::map<std::time_t, float>::iterator it = this->data.upper_bound(mktime(&this->time_s));
 		if (it == this->data.begin())
-			throw std::runtime_error("Error: no anterior date recorded.");
+			throw std::runtime_error("no anterior date recorded.");
 		else
 			it--;
 		std::cout << this->tmps << " => " << this->value << " = " << (this->value * it->second) << std::endl;
 	}
 	catch(const std::runtime_error & e)
 	{
-		std::cout << e.what() << std::endl;
+		std::cout << "Error: " << e.what() << std::endl;
 	}
 }
