@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   RPN.hpp                                            :+:      :+:    :+:   */
+/*   PmergeMe.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lgerard <lgerard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,22 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RPN_HPP
-# define RPN_HPP
+#ifndef PMERGEME_HPP
+# define PMERGEME_HPP
 
-#include <stack>
+#include <vector>
+#include <list>
 #include <string>
 
-class RPN
+class PmergeMe
 {
 	private:
-		std::stack<int> data;
+		std::vector<unsigned int>	datav;
+		std::list<unsigned int>		datal;
 
 	public:
-				RPN( void );
-				RPN( const RPN & other );
-				~RPN( void );
-		RPN &	operator=( RPN other );
+				PmergeMe( void );
+				PmergeMe( const PmergeMe & other );
+				~PmergeMe( void );
+		PmergeMe &	operator=( PmergeMe other );
 
 		int		exec( std::string str );
 };

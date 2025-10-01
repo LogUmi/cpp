@@ -1,9 +1,9 @@
-NAME = RPN
+NAME = PmergeMe
 OBJ = obj
 OBJDIR = obj/
 SRCDIR = src/
 FILEC =	main.cpp \
-		RPN.cpp
+		PmergeMe.cpp
 OBJS = $(patsubst %.cpp, $(OBJDIR)/%.o, $(FILEC))
 SRCS = $(addprefix	$(SRCDIR),	$(FILEC))
 DEPS = $(OBJS:.o=.d)

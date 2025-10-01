@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   RPN.cpp                                            :+:      :+:    :+:   */
+/*   PmergeMe.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lgerard <lgerard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RPN.hpp"
+#include "PmergeMe.hpp"
 #include <fstream>
 #include <string>
 #include <iostream>
@@ -19,22 +19,22 @@
 /* Constructors and destructor                                                */
 /******************************************************************************/
 
-RPN::RPN( void )
+PmergeMe::PmergeMe( void )
 :	data()
 {}
 
-RPN::RPN( const RPN & other )
+PmergeMe::PmergeMe( const PmergeMe & other )
 :	data(other.data)
 {}
 
-RPN::~RPN( void )
+PmergeMe::~PmergeMe( void )
 {}
 
 /******************************************************************************/
 /* overload of operators                                                      */
 /******************************************************************************/
 
-RPN &	RPN::operator=( RPN other )
+PmergeMe &	PmergeMe::operator=( PmergeMe other )
 {
 	std::swap(this->data, other.data);
 	return (*this);
@@ -44,7 +44,7 @@ RPN &	RPN::operator=( RPN other )
 /* member functions                                                           */
 /******************************************************************************/
 
-int	RPN::exec(std::string str)
+int	PmergeMe::exec(std::string str)
 {
 	size_t	offst = 0;
 	size_t	nb = 0;
