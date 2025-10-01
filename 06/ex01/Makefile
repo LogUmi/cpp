@@ -10,9 +10,9 @@ DEPS = $(OBJS:.o=.d)
 FLAGS = -Wall -Werror -Wextra -g -std=c++98 -MMD -MP
 CXX = c++
 
-all:		init_dirs	$(NAME)
+all:		$(NAME)
 
-$(NAME):	$(OBJS)
+$(NAME):	init_dirs	$(OBJS)
 			@$(CXX) $(FLAGS) $(OBJS) -o $(NAME)
 			@echo "compilation completed, exec $(NAME) ready."
 
