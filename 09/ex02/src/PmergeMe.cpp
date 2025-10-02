@@ -11,20 +11,25 @@
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
-#include <fstream>
 #include <string>
 #include <iostream>
+#include <cstddef>
+#include <ctime>
+#include <ratio>
+#include <chrono>
 
 /******************************************************************************/
 /* Constructors and destructor                                                */
 /******************************************************************************/
 
 PmergeMe::PmergeMe( void )
-:	data()
+:	datav(),
+	datad()
 {}
 
 PmergeMe::PmergeMe( const PmergeMe & other )
-:	data(other.data)
+:	datav(other.datav),
+	datad(other.datad)
 {}
 
 PmergeMe::~PmergeMe( void )
@@ -36,7 +41,8 @@ PmergeMe::~PmergeMe( void )
 
 PmergeMe &	PmergeMe::operator=( PmergeMe other )
 {
-	std::swap(this->data, other.data);
+	std::swap(this->datav, other.datav);
+	std::swap(this->datad, other.datad);
 	return (*this);
 }
 
@@ -44,70 +50,26 @@ PmergeMe &	PmergeMe::operator=( PmergeMe other )
 /* member functions                                                           */
 /******************************************************************************/
 
-int	PmergeMe::exec(std::string str)
+int	PmergeMe::exec( int size, char** argv)
 {
-	size_t	offst = 0;
-	size_t	nb = 0;
-	int		i = 0;
-	
-	while (offst != str.size())
-	{
-		if (isspace(str[offst]))
-			nb = 0;
-		else if (isdigit(str[offst]))
-		{
-			if (nb != 0)
-			{
-				std::cerr << "Error" << std::endl;
-				return (1);
-			}
-			nb++;
-			data.push(str[offst] - 48);
-		}
-		else if (this->data.size() >= 2 && (str[offst] == '+' || str[offst] == '-'
-					|| str[offst] == '*' || str[offst] == '/'))
-		{
-			if (nb != 0)
-			{
-				std::cerr << "Error" << std::endl;
-				return (1);
-			}
-			nb++;
-			i = this->data.top();
-			this->data.pop();
-			switch (str[offst])
-			{
-				case 42:
-					this->data.top() *= i;
-					break ;
-				case 43:
-					this->data.top() += i;
-					break ;
-				case 45:
-					this->data.top() -= i;
-					break;
-				case 47:
-					this->data.top() /= i;
-					break ;
-				default:
-					std::cerr << "Error" << std::endl;
-					return (1);
-					break ;
-			}
-		}
-		else
-		{
-			std::cerr << "Error" << std::endl;
-			return (1);
-		}
-		offst++;
-	}
-	if (this->data.size() != 1)
-	{
-		std::cerr << "Error" << std::endl;
-		return (1);
-	}
-	std::cout << this->data.top() << std::endl;
-	return (0);
+	//size_t	i = 0;
+	//using namespace std::chrono;
+	static_cast<void>(size);
+	static_cast<void>(argv);
+
+  	std::chrono::steady_clock::time_point t1 = 	std::chrono::steady_clock::now();
+
+	std::cout << "printing out 1000 stars...\n";
+	for (int i=0; i<1000; ++i) std::cout << "*";
+	std::cout << std::endl;
+	std::chrono::steady_clock::time_point t2 = 	std::chrono::steady_clock::now();
+
+  	std::chrono::duration<double> time_span = 	std::chrono::duration_cast<	std::chrono::duration<double>>(t2 - t1);
+
+  	std::cout << "It took me " << time_span.count() << " seconds.";
+	std::cout << std::endl;
+
+  return (0);
+
 }
 

@@ -14,14 +14,14 @@
 # define PMERGEME_HPP
 
 #include <vector>
-#include <list>
+#include <deque>
 #include <string>
 
 class PmergeMe
 {
 	private:
 		std::vector<unsigned int>	datav;
-		std::list<unsigned int>		datal;
+		std::deque<unsigned int>	datad;
 
 	public:
 				PmergeMe( void );
@@ -29,6 +29,6 @@ class PmergeMe
 				~PmergeMe( void );
 		PmergeMe &	operator=( PmergeMe other );
 
-		int		exec( std::string str );
+		int		exec( int size, char** argv);
 };
 #endif
