@@ -96,18 +96,6 @@ bool	PmergeMe::is_valid( const char * str ) const
 	return ( true );
 }
 
-bool	PmergeMe::sort_conform() const
-{
-	if ( vM.size() != dM.size())
-		return (false);
-	for (size_t i = 0; i < vM.size(); i++)
-	{
-		if (vM[i] != dM[i])
-			return (false);
-	}
-	return (true);
-}
-
 void	PmergeMe::vector_sort( void )
 {
 	/*********** only one number **********/
@@ -128,16 +116,8 @@ void	PmergeMe::vector_sort( void )
 	if ((vdata.size() % 2) != 0) /* if odd n numbers save the single number */
 		vodd = vdata[j];
 
-/********** sorting pairs then inializing the main container & pair positions container **********/
-	/*std::cout << "valeurs des Pairs: ";
-	for (i = 0; i < vPairs.size(); i++)
-		std::cout << vPairs[i].first << ", " <<  vPairs[i].second << " - ";
-	std::cout << std::endl;*/
+/*********** sorting pairs then inializing the main container & pair positions container **********/
 	std::sort (vPairs.begin(), vPairs.end());
-	/*std::cout << "valeurs des Pairs: ";
-	for (i = 0; i < vPairs.size(); i++)
-		std::cout << vPairs[i].first << ", " <<  vPairs[i].second << " - ";
-	std::cout << std::endl;*/
 	j = 1;
 	vM.push_back(vPairs[0].second);
 	vM.push_back(vPairs[0].first);
@@ -147,15 +127,7 @@ void	PmergeMe::vector_sort( void )
 		vM.push_back(vPairs[i].first);
 		vpos.push_back(j++);
 	}
-/*	std::cout << "emplacements vM: ";
-	for (i = 0; i < vM.size(); i++)
-		std::cout << vM[i] << " ";
-	std::cout << std::endl;
-	std::cout << "positions pairs: ";
-	for (i = 0; i < vpos.size(); i++)
-		std::cout << i << "-" << vpos[i] << " ";
-	std::cout << std::endl;*/
-/******* initialization of the jacobsthal numbers (orders of pair.second index to insert) *******/
+/*********** initialization of the jacobsthal numbers (orders of pair.second index to insert) **********/
 	size_t	j0 = 0;
 	size_t	j1 = 1;
 	vjacobsthal.push_back(1);
@@ -168,13 +140,13 @@ void	PmergeMe::vector_sort( void )
 			j1 = j;
 			if (j1 <= npair)
 			{
-				vjacobsthal.push_back(j1 - 1);/* - 1 to have a direct container index */
+				vjacobsthal.push_back(j1);
 				if (j1 == npair)
 					break ;
 			}
 			else if ( j1 > npair)
 			{
-				vjacobsthal.push_back(npair - 1);/* - 1 to have a direct container index */
+				vjacobsthal.push_back(npair);
 				break ;
 			}
 		}
@@ -184,39 +156,38 @@ void	PmergeMe::vector_sort( void )
 		std::cout << std::endl;*/
 		/*********** pair.second insertion in cotainer main **********/
 
-		size_t	k = 1;
+		size_t	k = 0;
+		//size_t	hi_bound = vjacobsthal[k]; /* index high bound initialized to 1 */
+		//size_t 	lo_bound = 0; /* index low bound initialized to 0 */
 		size_t	lft_bound = 0; /* index left bound as low bound for start */
 		size_t	rgt_bound = vpos[vjacobsthal[k]]; /* index right bound as low bound for start */
+		//size_t	mid_bound = 0; /* index mid bound as low bound for start */
 		size_t	pos_fin = vpos.size();
 		j = 0;
-		while (k < (vjacobsthal.size())) /* loop on the blocs of pairs sequence settled */
+		while (k < vjacobsthal.size() - 1)
 		{
 			i = vjacobsthal[k];
-			lft_bound = 0;
-			while ( i > vjacobsthal[k - 1] ) /* recursive loop on pairs in bloc sequence */
+			rgt_bound = vpos[k];
+			lft_bound = 0; //(k == 0 ? 0 : vpos[k - 1]);
+			while ( i > vjacobsthal[k - 1] )
 			{
-				rgt_bound = vpos[i];
+				/*if (vPairs[i].second <= vM[vpos[i]])
+				{
+					rgt_bound = lft_bound;
+					lft_bound = 0;
+				}*/
 				std::vector<int>::iterator pos = std::lower_bound(vM.begin() + lft_bound
 												, vM.begin() + rgt_bound, vPairs[i].second);
 				vM.insert(pos, vPairs[i].second);
 				j = pos - vM.begin();
-				/*std::cout 	<< "k=" << k << " i=" << i << " pair[i]=" << vPairs[i].first 
-								<< ", "  << vPairs[i].second<< " lft=" << lft_bound << " rgt="
-								<< rgt_bound << " j=" << j << " *pos=" << *pos << " vpos[i]="
-								<< vpos[i] << std::endl;*/
-				for (size_t it = 0; it < pos_fin; it++) /* update pairs positions after insertion*/
+				std::cout 	<< "k=" << k << " i=" << i << " pair[i]=" << vPairs[i].first <<  ", " 
+							<< vPairs[i].second<< " lft=" << lft_bound << " rgt=" << rgt_bound
+							<< " j=" << j << " *pos=" << *pos << " vpos[i]=" << vpos[i] << std::endl;
+				for (size_t it = 0; it < pos_fin; it++)
 				{	
 					if (vpos[it] >= j)
 						vpos[it]++;
 				}
-/*				std::cout << "emplacements vM: ";
-				for (j = 0; j < vM.size(); j++)
-					std::cout << vM[j] << " ";
-				std::cout << std::endl;
-				std::cout << "positions pairs: ";
-				for (j = 0; j < vpos.size(); j++)
-					std::cout << j << "-" << vpos[j] << " ";
-				std::cout << std::endl;*/
 				i--;
 				rgt_bound = vpos[i];
 			}
@@ -226,123 +197,16 @@ void	PmergeMe::vector_sort( void )
 /*********** insertion of last odd count number if there's one **********/
 	if (vodd != -1)
 	{
-    	std::vector<int>::iterator pos = std::lower_bound(vM.begin(), vM.end(), vodd);
-   		vM.insert(pos, vodd);
+    std::vector<int>::iterator pos = std::lower_bound(vM.begin(), vM.end(), vodd);
+    vM.insert(pos, vodd);
 	}
 }
 void	PmergeMe::dequer_sort( void )
 {
-	size_t 	j = 0;
-	size_t	i = 0;
-	size_t	npair = ddata.size() / 2;
-	for (i = 0; i < npair; i++)
+	if (ddata.size() == 1)
 	{
-		dPairs.push_back(std::make_pair(std::max(ddata[j], ddata[j + 1]), std::min(ddata[j], ddata[j + 1])));
-		j += 2;
-	}
-	if ((ddata.size() % 2) != 0) /* if odd n numbers save the single number */
-		dodd = ddata[j];
-
-/********** sorting pairs then inializing the main container & pair positions container **********/
-	/*std::cout << "valeurs des Pairs: ";
-	for (i = 0; i < vPairs.size(); i++)
-		std::cout << vPairs[i].first << ", " <<  vPairs[i].second << " - ";
-	std::cout << std::endl;*/
-	std::sort (dPairs.begin(), dPairs.end());
-	/*std::cout << "valeurs des Pairs: ";
-	for (i = 0; i < vPairs.size(); i++)
-		std::cout << vPairs[i].first << ", " <<  vPairs[i].second << " - ";
-	std::cout << std::endl;*/
-	j = 1;
-	dM.push_back(dPairs[0].second);
-	dM.push_back(dPairs[0].first);
-	dpos.push_back(j++);
-	for (i = 1; i < dPairs.size(); i++)
-	{
-		dM.push_back(dPairs[i].first);
-		dpos.push_back(j++);
-	}
-/*	std::cout << "emplacements vM: ";
-	for (i = 0; i < vM.size(); i++)
-		std::cout << vM[i] << " ";
-	std::cout << std::endl;
-	std::cout << "positions pairs: ";
-	for (i = 0; i < vpos.size(); i++)
-		std::cout << i << "-" << vpos[i] << " ";
-	std::cout << std::endl;*/
-/******* initialization of the jacobsthal numbers (orders of pair.second index to insert) *******/
-	size_t	j0 = 0;
-	size_t	j1 = 1;
-	djacobsthal.push_back(1);
-	if (npair > 1) /* if there's only one pair the pair.second is already inserted */
-	{
-		for (;;)
-		{	
-			j = j1 + 2 * j0;
-			j0 = j1;
-			j1 = j;
-			if (j1 <= npair)
-			{
-				djacobsthal.push_back(j1 - 1);/* - 1 to have a direct container index */
-				if (j1 == npair)
-					break ;
-			}
-			else if ( j1 > npair)
-			{
-				djacobsthal.push_back(npair - 1);/* - 1 to have a direct container index */
-				break ;
-			}
-		}
-		/*std::cout << "jabcobsthal: ";
-		for (i = 0; i < djacobsthal.size(); i++)
-			std::cout << djacobsthal[i] << " ";
-		std::cout << std::endl;*/
-		/*********** pair.second insertion in cotainer main **********/
-
-		size_t	k = 1;
-		size_t	lft_bound = 0; /* index left bound as low bound for start */
-		size_t	rgt_bound = dpos[djacobsthal[k]]; /* index right bound as low bound for start */
-		size_t	pos_fin = dpos.size();
-		j = 0;
-		while (k < (djacobsthal.size())) /* loop on the blocs of pairs sequence settled */
-		{
-			i = djacobsthal[k];
-			lft_bound = 0;
-			while ( i > djacobsthal[k - 1] ) /* recursive loop on pairs in bloc sequence */
-			{
-				rgt_bound = dpos[i];
-				std::deque<int>::iterator pos = std::lower_bound(dM.begin() + lft_bound
-												, dM.begin() + rgt_bound, dPairs[i].second);
-				dM.insert(pos, dPairs[i].second);
-				j = pos - dM.begin();
-				/*std::cout 	<< "k=" << k << " i=" << i << " pair[i]=" << vPairs[i].first 
-								<< ", "  << vPairs[i].second<< " lft=" << lft_bound << " rgt="
-								<< rgt_bound << " j=" << j << " *pos=" << *pos << " vpos[i]="
-								<< vpos[i] << std::endl;*/
-				for (size_t it = 0; it < pos_fin; it++) /* update pairs positions after insertion*/
-				{	
-					if (dpos[it] >= j)
-						dpos[it]++;
-				}
-/*				std::cout << "emplacements vM: ";
-				for (j = 0; j < vM.size(); j++)
-					std::cout << vM[j] << " ";
-				std::cout << std::endl;
-				std::cout << "positions pairs: ";
-				for (j = 0; j < vpos.size(); j++)
-					std::cout << j << "-" << vpos[j] << " ";
-				std::cout << std::endl;*/
-				i--;
-				rgt_bound = dpos[i];
-			}
-			k++;
-		}
-	}
-/*********** insertion of last odd count number if there's one **********/
-	if (dodd != -1)
-	{
-    	std::deque<int>::iterator pos = std::lower_bound(dM.begin(), dM.end(), dodd);
-   		dM.insert(pos, dodd);
+		dM.push_back(ddata[0]);
+		return ;
 	}
 }
 
@@ -389,19 +253,10 @@ int	PmergeMe::exec( int size, char** argv)
 	dequer_sort();
 	clock_t	dstop = clock();
 	/***********  sorting output ***********/
-	if (sort_conform() == false)
-	{
-		std::cerr << "Error: sorting issue" << std::endl;
-		return (1);
-	}
 	std::cout 	<< "After:   ";
 	for (size_t j = 0; j < vM.size(); j++)
 		std::cout 	<< vM[j] << " ";	
 	std::cout 	<< std::endl;
-/*	std::cout 	<< "After:   ";
-	for (size_t j = 0; j < dM.size(); j++)
-		std::cout 	<< dM[j] << " ";	
-	std::cout 	<< std::endl;*/
 	double v_us = 1e6 * static_cast<double>(vstop - vstart) / CLOCKS_PER_SEC;
 	double d_us = 1e6 * static_cast<double>(dstop - dstart) / CLOCKS_PER_SEC;
 	std::cout 	<< "Time to process a range of " << std::setw(NUMBER_SIZE) << vM.size()

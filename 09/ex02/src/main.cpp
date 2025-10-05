@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgerard <lgerard@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lgerard <lgerard@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 21:46:04 by lgerard           #+#    #+#             */
-/*   Updated: 2025/10/02 17:03:08 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/10/04 10:07:08 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 
 int main( int argc, char** argv )
 {
-	if (argc < 3)
+	if (argc < 2)
 	{
-		std::cerr 	<< "Error: please type as parameters a positive integer sequence to be sorted (so more than one)"
+		std::cerr 	<< "Error: please type as parameters a positive integer sequence"
 					<< std::endl;
 		return (1);
 	}
