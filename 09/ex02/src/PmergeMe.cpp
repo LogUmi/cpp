@@ -80,6 +80,22 @@ PmergeMe &	PmergeMe::operator=( PmergeMe other )
 /* member functions                                                           */
 /******************************************************************************/
 
+void	PmergeMe::initialize( void )
+{
+	vdata.clear();
+	ddata.clear();
+    vPairs.clear();
+	dPairs.clear();
+    vM.clear();
+	dM.clear();
+    vjacobsthal.clear();
+	djacobsthal.clear();
+    vpos.clear();
+	dpos.clear();
+    vodd = -1;
+	dodd = -1;
+}
+
 bool	PmergeMe::is_valid( const char * str ) const
 {
 	size_t	i = 0;
@@ -116,10 +132,17 @@ void	PmergeMe::vector_sort( void )
 		vM.push_back(vdata[0]);
 		return ;
 	}
+/*********** amount reserve() to avoid re-allocs ***********/
+	size_t	n = vdata.size();
+	size_t	npair = n / 2;
+	vPairs.reserve(npair);
+	vM.reserve(n);
+	vjacobsthal.reserve(32);
+	vpos.reserve(npair);
 /*********** Pairs creation with consecutives data numbers max first & min second **********/
 	size_t 	j = 0;
 	size_t	i = 0;
-	size_t	npair = vdata.size() / 2;
+	
 	for (i = 0; i < npair; i++)
 	{
 		vPairs.push_back(std::make_pair(std::max(vdata[j], vdata[j + 1]), std::min(vdata[j], vdata[j + 1])));
@@ -198,8 +221,8 @@ void	PmergeMe::vector_sort( void )
 				rgt_bound = vpos[i];
 				std::vector<int>::iterator pos = std::lower_bound(vM.begin() + lft_bound
 												, vM.begin() + rgt_bound, vPairs[i].second);
-				vM.insert(pos, vPairs[i].second);
 				j = pos - vM.begin();
+				vM.insert(pos, vPairs[i].second);
 				/*std::cout 	<< "k=" << k << " i=" << i << " pair[i]=" << vPairs[i].first 
 								<< ", "  << vPairs[i].second<< " lft=" << lft_bound << " rgt="
 								<< rgt_bound << " j=" << j << " *pos=" << *pos << " vpos[i]="
@@ -232,9 +255,19 @@ void	PmergeMe::vector_sort( void )
 }
 void	PmergeMe::dequer_sort( void )
 {
+	
+	/*********** only one number **********/
+	if (vdata.size() == 1)
+	{
+		vM.push_back(vdata[0]);
+		return ;
+	}
+	/*********** amount reserve() to avoid re-allocs (.reserve() doesn't exist for deque ***********/
+	size_t	n = ddata.size();
+	size_t	npair = n / 2;
+/*********** Pairs creation with consecutives data numbers max first & min second **********/
 	size_t 	j = 0;
 	size_t	i = 0;
-	size_t	npair = ddata.size() / 2;
 	for (i = 0; i < npair; i++)
 	{
 		dPairs.push_back(std::make_pair(std::max(ddata[j], ddata[j + 1]), std::min(ddata[j], ddata[j + 1])));
@@ -313,8 +346,8 @@ void	PmergeMe::dequer_sort( void )
 				rgt_bound = dpos[i];
 				std::deque<int>::iterator pos = std::lower_bound(dM.begin() + lft_bound
 												, dM.begin() + rgt_bound, dPairs[i].second);
-				dM.insert(pos, dPairs[i].second);
 				j = pos - dM.begin();
+				dM.insert(pos, dPairs[i].second);
 				/*std::cout 	<< "k=" << k << " i=" << i << " pair[i]=" << vPairs[i].first 
 								<< ", "  << vPairs[i].second<< " lft=" << lft_bound << " rgt="
 								<< rgt_bound << " j=" << j << " *pos=" << *pos << " vpos[i]="
@@ -349,6 +382,7 @@ void	PmergeMe::dequer_sort( void )
 int	PmergeMe::exec( int size, char** argv)
 {
 	/*********** arguments management ***********/
+	clock_t	mstart = clock();
 	int	i = 0;
 	long	val =0;
 
@@ -376,6 +410,8 @@ int	PmergeMe::exec( int size, char** argv)
 		vdata.push_back(static_cast<int>(val));
 		ddata.push_back(static_cast<int>(val));
 	}
+	clock_t	mstop = clock();
+	double 	m_us = 1e6 * static_cast<double>(mstop - mstart) / CLOCKS_PER_SEC;
 	std::cout 	<< "Before:  ";
 	for (i = 0; i < size; i++)
 		std::cout << vdata[i] << " ";
@@ -398,19 +434,20 @@ int	PmergeMe::exec( int size, char** argv)
 	for (size_t j = 0; j < vM.size(); j++)
 		std::cout 	<< vM[j] << " ";	
 	std::cout 	<< std::endl;
-/*	std::cout 	<< "After:   ";
-	for (size_t j = 0; j < dM.size(); j++)
-		std::cout 	<< dM[j] << " ";	
-	std::cout 	<< std::endl;*/
 	double v_us = 1e6 * static_cast<double>(vstop - vstart) / CLOCKS_PER_SEC;
 	double d_us = 1e6 * static_cast<double>(dstop - dstart) / CLOCKS_PER_SEC;
 	std::cout 	<< "Time to process a range of " << std::setw(NUMBER_SIZE) << vM.size()
 				<< " elements with std::vector : " << std::fixed << std::setw (TIME_SIZE) 
-				<< std::setprecision(TIME_PREC)	<< v_us	<< " us" << std::endl;
+				<< std::setprecision(TIME_PREC)	<< v_us	+ m_us << " us" << std::endl;
+	/*std::cout 	<< "After:   ";
+	for (size_t j = 0; j < dM.size(); j++)
+		std::cout 	<< dM[j] << " ";
+	std::cout 	<< std::endl; */
 	std::cout 	<< "Time to process a range of " << std::setw(NUMBER_SIZE) << dM.size()
 				<< " elements with std::deque  : " << std::fixed << std::setw (TIME_SIZE) 
-				<< std::setprecision(TIME_PREC)	<< d_us << " us" << std::endl;
+				<< std::setprecision(TIME_PREC)	<< d_us + m_us << " us" << std::endl;
+/* 	std::cout 	<< "Time to process management: " << std::fixed << std::setw (TIME_SIZE) 
+				<< std::setprecision(TIME_PREC)	<< m_us << " us" << std::endl; */
   return (0);
-
 }
 

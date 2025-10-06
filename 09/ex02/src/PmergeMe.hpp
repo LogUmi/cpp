@@ -21,7 +21,7 @@
 
 #define NUMBER_SIZE 4
 #define TIME_SIZE 	10
-#define TIME_PREC	5
+#define TIME_PREC	3
 
 class PmergeMe
 {
@@ -39,6 +39,7 @@ class PmergeMe
 		std::deque<size_t>					dpos;
 		int									dodd;
 
+		void								initialize( void );
 		bool								is_valid( const char * str ) const;
 		bool								sort_conform() const;
 		void								vector_sort( void );
