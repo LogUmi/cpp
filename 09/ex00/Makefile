@@ -7,7 +7,7 @@ FILEC =	main.cpp \
 OBJS = $(patsubst %.cpp, $(OBJDIR)/%.o, $(FILEC))
 SRCS = $(addprefix	$(SRCDIR),	$(FILEC))
 DEPS = $(OBJS:.o=.d)
-FLAGS = -Wall -Werror -Wextra -g -std=c++98 -MMD -MP -pedantic
+FLAGS = -Wall -Werror -Wextra -std=c++98 -MMD -MP #-O0 -g -fstandalone-debug
 CXX = c++
 
 all:		init_dirs	$(NAME)

@@ -6,7 +6,7 @@
 /*   By: lgerard <lgerard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 21:46:04 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/30 15:25:13 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/10/07 16:21:23 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void	treat_file( std::ifstream & ifs, bool type, BitcoinExchange & btc )
 	while (std::getline( ifs, result ))
 	{
 		str = str + result;
-		if (ifs.eof() && !ifs.fail())
-			break ;
-		else if (ifs.eof() && ifs.fail())
+		/* if (ifs.eof() && !ifs.fail())
+			break ; */
+		if (ifs.eof() && ifs.fail())
 			break ;
 		else if (ifs.fail())
 			throw std::runtime_error("ERROR: Logical error : failed to read (FAIL) file ");
