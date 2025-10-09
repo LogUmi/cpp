@@ -6,7 +6,7 @@
 /*   By: lgerard <lgerard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 15:36:22 by lgerard           #+#    #+#             */
-/*   Updated: 2025/09/30 16:38:48 by lgerard          ###   ########.fr       */
+/*   Updated: 2025/10/09 19:03:57 by lgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,11 +119,8 @@ void	BitcoinExchange::set_value(std::string & str, int offst)
 		poffst = ++offst;
 	}
 	if ((offst = is_digit( str, offst )) < 0)
-	{
-		std::cout << offst << " " << str[offst];
 		throw std::runtime_error("bad input => " + str);
-	}
-		if (offst == 0)
+	if (offst == 0)
 	{}
 	else if (str[offst] == '.')
 	{

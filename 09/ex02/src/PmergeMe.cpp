@@ -257,9 +257,9 @@ void	PmergeMe::dequer_sort( void )
 {
 	
 	/*********** only one number **********/
-	if (vdata.size() == 1)
+	if (ddata.size() == 1)
 	{
-		vM.push_back(vdata[0]);
+		dM.push_back(ddata[0]);
 		return ;
 	}
 	/*********** amount reserve() to avoid re-allocs (.reserve() doesn't exist for deque ***********/
